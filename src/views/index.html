@@ -1,22 +1,37 @@
-
-<!-- views/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/styles.css">
-  <title>Student Information</title>
 </head>
 <body>
   <h1>Student Information</h1>
-  <form action="/api/student" method="GET">
+  <form id="searchForm">
     <label for="mssv">MSSV:</label>
     <input type="text" id="mssv" name="mssv" required>
     <label for="mamh">MAMH:</label>
     <input type="text" id="mamh" name="mamh" required>
-    <button type="submit">Search</button>
+    <button type="button" onclick="search()">Search</button>
   </form>
   <div id="result"></div>
+
+  <script>
+    function search() {
+      const mssv = document.getElementById('mssv').value;
+      const mamh = document.getElementById('mamh').value;
+
+      fetch(`/api/student?mssv=${mssv}&mamh=${mamh}`)
+        .then(response => response.json())
+        .then(data => {
+          const resultDiv = document.getElementById('result');
+          if (data.error) {
+            resultDiv.innerHTML = `<p>${data.error}</p>`;
+          } else {
+            resultDiv.innerHTML = `<p>MSSV: ${mssv}</p><p>Mã môn học: ${mamh}</p><p>Điểm: ${data.diem}</p>`;
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  </script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-// controllers/studentController.js
 const studentModel = require('../models/model');
 
 const getStudentInfo = (req, res) => {
@@ -18,5 +17,3 @@ const getStudentInfo = (req, res) => {
 };
 
 module.exports = { getStudentInfo };
-
-
